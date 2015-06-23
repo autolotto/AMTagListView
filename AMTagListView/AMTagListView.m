@@ -125,6 +125,16 @@
     }
 }
 
+- (void)setTags:(NSArray *)array
+{
+    for (AMTagView *tag in self.tags) {
+        [tag removeFromSuperview];
+    }
+    [self.tags removeAllObjects];
+    [self addTags:array andRearrange:NO];
+    [self rearrangeTags];
+}
+
 #pragma mark - Tag removal
 
 - (void)removeTag:(AMTagView*)view {
