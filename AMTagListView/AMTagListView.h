@@ -63,6 +63,11 @@ typedef void (^AMTagListViewTapHandler)(AMTagView*);
  */
 - (void)addTags:(NSArray *)array andRearrange:(BOOL)rearrange;
 
+/** Remove old ones and add a multiple tags
+ * @param array An array of strings
+ */
+- (void)setTags:(NSArray *)array;
+
 /** Add a specific tag to the tag list
  *
  * @param tagView An AMTagView instance

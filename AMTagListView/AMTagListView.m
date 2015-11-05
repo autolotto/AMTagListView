@@ -125,6 +125,16 @@
     }
 }
 
+- (void)setTags:(NSArray *)array
+{
+    for (AMTagView *tag in self.tags) {
+        [tag removeFromSuperview];
+    }
+    [self.tags removeAllObjects];
+    [self addTags:array andRearrange:NO];
+    [self rearrangeTags];
+}
+
 #pragma mark - Tag removal
 
 - (void)removeTag:(AMTagView*)view {
@@ -150,6 +160,9 @@
     __block float maxY = 0;
     __block float maxX = 0;
     __block CGSize size = CGSizeZero;
+    
+    __block float contentWidth = self.frame.size.width - self.contentInset.left - self.contentInset.right;
+    
     for (AMTagView *obj in self.tags) {
         size = obj.frame.size;
         [self.subviews enumerateObjectsUsingBlock:^(UIView* view, NSUInteger idx, BOOL *stop) {
@@ -167,7 +180,7 @@
         }];
 
         // Go to a new line if the tag won't fit
-        if (size.width + maxX > (self.frame.size.width - self.marginX)) {
+        if (size.width + maxX > (contentWidth - self.marginX)) {
             maxY += size.height + self.marginY;
             maxX = 0;
         }
@@ -175,7 +188,7 @@
         [self addSubview:obj];
     };
 
-    [self setContentSize:CGSizeMake(self.frame.size.width, maxY + size.height + self.marginY)];
+    [self setContentSize:CGSizeMake(contentWidth, maxY + size.height)];
 }
 
 - (void)layoutSubviews {
